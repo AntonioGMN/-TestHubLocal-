@@ -1,7 +1,7 @@
 import Container from "../../components/center";
 import { Form, Button, Line } from "../../components/form";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import * as api from "../../service/apiLogin";
 import { useAuth } from "../../contexts/AuthContext";
@@ -9,16 +9,16 @@ import { useAlert } from "../../contexts/AlertContext";
 
 export default function LoginPage() {
 	const navegate = useNavigate();
-	const { persistLogin } = useAuth();
+	const { token, persistLogin } = useAuth();
 	const { setMessage } = useAlert();
 	const [user, setUser] = useState({
 		email: "",
 		password: "",
 	});
 
-	// useEffect(() => {
-	// 	if (token) navegate("home");
-	// }, [token, navegate]);
+	useEffect(() => {
+		if (token) navegate("/");
+	}, [token, navegate]);
 
 	function handlerInput(e) {
 		setUser({ ...user, [e.target.name]: e.target.value });

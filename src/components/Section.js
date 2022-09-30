@@ -5,17 +5,15 @@ const Section = styled.section`
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
-	min-height: 300px;
-	max-height: 600px;
-	width: 80%;
+	height: 100%;
+	width: 90%;
 
-	position: static;
-	overflow: auto;
+	background: white;
+	border-radius: 0 15px 15px 0;
 
-	@media (max-width: 700px) {
-		width: 100%;
-		min-height: none;
-		max-height: none;
+	@media (max-width: 900px) {
+		//width: 100%;
+		border-radius: 15px;
 	}
 `;
 

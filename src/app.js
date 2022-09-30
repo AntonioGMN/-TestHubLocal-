@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage";
+import EmpresasPage from "./pages/EmpresasPage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 
@@ -12,7 +12,7 @@ export default function App() {
 			<AuthProvider>
 				<BrowserRouter>
 					<Routes>
-						<Route path="/" element={<HomePage />} />
+						<Route path="/" element={<EmpresasPage />} />
 						<Route path="/login" element={<LoginPage />} />
 						<Route path="/signUp" element={<SignUpPage />} />
 					</Routes>
