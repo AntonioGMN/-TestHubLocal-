@@ -3,8 +3,12 @@ import styled from "styled-components";
 import { IoBusinessOutline } from "react-icons/io5";
 import { GrMapLocation } from "react-icons/gr";
 import { HiOutlineTicket } from "react-icons/hi";
+import { AiOutlineLogout } from "react-icons/ai";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Nav() {
+	const { logout, token } = useAuth();
+
 	return (
 		<NavStyle>
 			<div>
@@ -12,12 +16,16 @@ export default function Nav() {
 				<p>Empresas</p>
 			</div>
 			<div>
-				<GrMapLocation size={55} style={{ color: "blue" }} />
+				<GrMapLocation size={55} />
 				<p>Locais</p>
 			</div>
 			<div>
-				<HiOutlineTicket size={55} style={{ color: "blue" }} />
+				<HiOutlineTicket size={55} />
 				<p>Ticket</p>
+			</div>
+			<div onClick={() => logout(token)}>
+				<AiOutlineLogout size={55} />
+				<p>Logout</p>
 			</div>
 		</NavStyle>
 	);

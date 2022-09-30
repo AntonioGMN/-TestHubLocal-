@@ -1,14 +1,14 @@
 import styled from "styled-components";
 
 export const Form = styled.form`
-	width: 380px;
+	width: ${(pros) => (pros.width ? "100%" : "380px")};
 
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	gap: 12px;
-	//background: whitesmoke;
+	margin-bottom: 16px;
 
 	@media (max-width: 700px) {
 		width: 100%;
@@ -19,7 +19,7 @@ export const Form = styled.form`
 		box-sizing: border-box;
 
 		width: 100%;
-		height: 62px;
+		height: ${(pros) => (pros.inputHeight ? pros.inputHeight : "62px")};
 
 		color: #000;
 		font-size: 18px;

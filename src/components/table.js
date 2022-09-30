@@ -29,7 +29,7 @@ const Table = styled.table`
 		padding-top: 12px;
 		padding-bottom: 12px;
 		text-align: left;
-		background-color: #04aa6d;
+		background-color: #31cc93;
 		color: white;
 	}
 `;

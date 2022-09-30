@@ -1,4 +1,4 @@
-import { instance, createConfig } from "./apiService";
+import { instance, createConfig } from ".";
 
 export async function signUp(user) {
 	const response = await instance.post("/signUp", user);

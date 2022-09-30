@@ -9,8 +9,6 @@ const Box = styled.div`
 	width: 900px;
 	border-radius: 15px;
 
-	//background: #e5e5e5;
-
 	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
 	@media (max-width: 900px) {
