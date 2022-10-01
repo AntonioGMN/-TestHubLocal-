@@ -19,7 +19,7 @@ export default function AuthProvider({ children }) {
 		try {
 			await api.logout(token);
 		} catch (err) {
-			return setMessage({ text: err });
+			setMessage({ text: err });
 		}
 
 		localStorage.clear();

@@ -5,13 +5,15 @@ import { GrMapLocation } from "react-icons/gr";
 import { HiOutlineTicket } from "react-icons/hi";
 import { AiOutlineLogout } from "react-icons/ai";
 import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Nav() {
 	const { logout, token } = useAuth();
+	const navegate = useNavigate();
 
 	return (
 		<NavStyle>
-			<div>
+			<div onClick={() => navegate("/")}>
 				<IoBusinessOutline size={55} />
 				<p>Empresas</p>
 			</div>
@@ -41,11 +43,10 @@ const NavStyle = styled.nav`
 	padding-top: 15px;
 	gap: 25px;
 
-	//background: #a2f7c4;
-	//background-image: linear-gradient(360deg, #00f260, #0575e6);
 	border-radius: 15px 0 0 15px;
 
 	div {
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -55,6 +56,11 @@ const NavStyle = styled.nav`
 
 		background-color: none;
 		border: none;
+
+		:hover {
+			cursor: pointer;
+			opacity: 0.7;
+		}
 	}
 
 	@media (max-width: 900px) {

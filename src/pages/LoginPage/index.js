@@ -29,10 +29,8 @@ export default function LoginPage() {
 
 		try {
 			const response = await api.login(user);
-			console.log(response);
 			const token = response.data;
 			persistLogin(token);
-			//navegate("/home");
 		} catch (error) {
 			return setMessage({ text: error.response.data });
 		}

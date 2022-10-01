@@ -4,9 +4,12 @@ import { useState } from "react";
 import Title from "../../components/title";
 import * as api from "../../service/apiEmpresas";
 import { useAuth } from "../../contexts/AuthContext";
+import { useAlert } from "../../contexts/AlertContext";
+import Row from "../../components/row";
 
-export default function Addresponsavels() {
+export default function Addresponsavels({ creating }) {
 	const { token } = useAuth();
+	const { setMessage } = useAlert();
 	const [empresa, setEmpresa] = useState({
 		nome: "",
 		cnpj: "",
@@ -16,7 +19,7 @@ export default function Addresponsavels() {
 	const [responsavel, setResponsavel] = useState({
 		nome: "",
 		telefone: "",
-		cnpj: "",
+		cep: "",
 		cidade: "",
 		estado: "",
 		rua: "",
@@ -27,10 +30,20 @@ export default function Addresponsavels() {
 		act({ ...obj, [e.target.name]: e.target.value });
 	}
 
+	const res = {
+		nome: responsavel.nome,
+		telefone: responsavel.telefone,
+		cep: responsavel.cep,
+	};
+
+	const body = { empresa: { ...empresa }, responsavel: { ...res } };
+
 	async function save() {
 		try {
 			console.log(empresa);
-			await api.create(empresa, token);
+			await api.create(body, token);
+			creating(false);
+			setMessage({ message: "empresa cadastrada" });
 		} catch (err) {
 			console.log(err);
 		}
@@ -90,7 +103,7 @@ export default function Addresponsavels() {
 						<input
 							placeholder="Telefone"
 							type="text"
-							name="Telefone"
+							name="telefone"
 							value={responsavel.telefone}
 							onChange={(e) => handlerInput(e, responsavel, setResponsavel)}
 						/>
@@ -139,13 +152,22 @@ export default function Addresponsavels() {
 					</Grid>
 				</Grid>
 			</Form>
-			<Button
-				onClick={() => {
-					save();
-				}}
-			>
-				Criar
-			</Button>
+			<Row>
+				<Button
+					onClick={() => {
+						window.location.replace("/");
+					}}
+				>
+					Canselar
+				</Button>
+				<Button
+					onClick={() => {
+						save();
+					}}
+				>
+					Criar
+				</Button>
+			</Row>
 		</>
 	);
 }

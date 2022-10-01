@@ -26,11 +26,19 @@ const Table = styled.table`
 	}
 
 	th {
+		/* display: flex;
+		flex-direction: row;
+		justify-content: center; */
+		align-items: center;
 		padding-top: 12px;
 		padding-bottom: 12px;
 		text-align: left;
 		background-color: #31cc93;
 		color: white;
+	}
+
+	td {
+		padding-left: 5px;
 	}
 `;
 

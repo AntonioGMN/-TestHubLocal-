@@ -1,22 +1,19 @@
 import Container from "../../components/center";
-//import { Form, Button } from "../../components/form";
 
 import { useState, useEffect } from "react";
 import Box from "../../components/box";
 import Nav from "../../components/nav";
-import Table from "../../components/table";
 import Section from "../../components/section";
 import { useNavigate } from "react-router-dom";
 import AddEmpresas from "./createEmpresa";
 
-import Row from "../../components/row";
-import Title from "../../components/title";
-import { IoIosAddCircleOutline } from "react-icons/io";
 import { useAuth } from "../../contexts/AuthContext";
+import ShowEmpresas from "./showEmpresa";
 
 export default function EmpresasPage() {
 	const [creating, setCreating] = useState(false);
 	const { token } = useAuth();
+
 	const navegate = useNavigate();
 
 	useEffect(() => {
@@ -29,24 +26,9 @@ export default function EmpresasPage() {
 				<Nav />
 				<Section>
 					{creating ? (
-						<AddEmpresas />
+						<AddEmpresas creating={setCreating} />
 					) : (
-						<>
-							<Row>
-								<Title>Empresas</Title>
-								<IoIosAddCircleOutline size={25} onClick={() => setCreating(true)} />
-							</Row>
-							<Table>
-								<thead>
-									<tr>
-										<th>Nome</th>
-										<th>UCNPJ</th>
-										<th>Descrição</th>
-										<th>Responsavel</th>
-									</tr>
-								</thead>
-							</Table>
-						</>
+						<ShowEmpresas creating={setCreating} />
 					)}
 				</Section>
 			</Box>
