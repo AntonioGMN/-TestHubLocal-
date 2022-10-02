@@ -6,6 +6,7 @@ import * as api from "../../service/apiEmpresas";
 import { useAuth } from "../../contexts/AuthContext";
 import { useAlert } from "../../contexts/AlertContext";
 import Row from "../../components/row";
+import ResponsavelCrud from "../../components/responsaveisCrud";
 
 export default function Addresponsavels({ creating }) {
 	const { token } = useAuth();
@@ -43,9 +44,9 @@ export default function Addresponsavels({ creating }) {
 			console.log(empresa);
 			await api.create(body, token);
 			creating(false);
-			setMessage({ message: "empresa cadastrada" });
+			setMessage({ type: "success", text: "empresa cadastrada" });
 		} catch (err) {
-			console.log(err);
+			setMessage({ text: err.message });
 		}
 		return;
 	}
@@ -88,70 +89,7 @@ export default function Addresponsavels({ creating }) {
 				</Grid>
 			</Form>
 			<Title>Reponsavel</Title>
-			<Form width={"100%"} inputHeight={"35px"}>
-				<Grid container spacing={2}>
-					<Grid xs={6}>
-						<input
-							placeholder="Nome"
-							type="text"
-							name="nome"
-							value={responsavel.name}
-							onChange={(e) => handlerInput(e, responsavel, setResponsavel)}
-						/>
-					</Grid>
-					<Grid xs={3}>
-						<input
-							placeholder="Telefone"
-							type="text"
-							name="telefone"
-							value={responsavel.telefone}
-							onChange={(e) => handlerInput(e, responsavel, setResponsavel)}
-						/>
-					</Grid>
-					<Grid xs={3}>
-						<input
-							placeholder="CEP"
-							type="text"
-							name="cep"
-							value={responsavel.cep}
-							onChange={(e) => handlerInput(e, responsavel, setResponsavel)}
-							maxLength={50}
-						/>
-					</Grid>
-					<Grid xs={5}>
-						<input
-							placeholder="Cidade"
-							name="cidade"
-							value={responsavel.cidade}
-							onChange={(e) => handlerInput(e, responsavel, setResponsavel)}
-						/>
-					</Grid>
-					<Grid xs={7}>
-						<input
-							placeholder="Estado"
-							name="estado"
-							value={responsavel.estado}
-							onChange={(e) => handlerInput(e, responsavel, setResponsavel)}
-						/>
-					</Grid>
-					<Grid xs={6}>
-						<input
-							placeholder="Rua"
-							name="rua"
-							value={responsavel.rua}
-							onChange={(e) => handlerInput(e, responsavel, setResponsavel)}
-						/>
-					</Grid>
-					<Grid xs={6}>
-						<input
-							placeholder="Bairro"
-							name="bairro"
-							value={responsavel.bairro}
-							onChange={(e) => handlerInput(e, responsavel, setResponsavel)}
-						/>
-					</Grid>
-				</Grid>
-			</Form>
+			<ResponsavelCrud obj={responsavel} setObj={setResponsavel} />
 			<Row>
 				<Button
 					onClick={() => {

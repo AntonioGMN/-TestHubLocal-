@@ -17,7 +17,7 @@ export default function Nav() {
 				<IoBusinessOutline size={55} />
 				<p>Empresas</p>
 			</div>
-			<div>
+			<div onClick={() => navegate("/locais")}>
 				<GrMapLocation size={55} />
 				<p>Locais</p>
 			</div>
