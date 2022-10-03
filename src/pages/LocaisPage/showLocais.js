@@ -5,7 +5,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 
 import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import * as apiEmpresas from "../../service/apiEmpresas";
+import * as apiLocais from "../../service/apiLocais";
 
 export default function ShowLocais({ creating }) {
 	const [locais, setLocais] = useState(null);
@@ -14,7 +14,7 @@ export default function ShowLocais({ creating }) {
 	useEffect(() => {
 		async function getEmpresa() {
 			try {
-				const locais = await apiEmpresas.get(token);
+				const locais = await apiLocais.get(token);
 				setLocais(locais.data);
 			} catch (err) {
 				console.log(err);
@@ -46,18 +46,18 @@ export default function ShowLocais({ creating }) {
 							</tr>
 						</thead>
 						<tbody>
-							{locais.map((emp) => (
-								<tr key={emp.id}>
-									<td>{emp.empresaNome}</td>
-									<td>{emp.cnpj}</td>
-									<td>{emp.descricao}</td>
-									<td>{emp.nome}</td>
+							{locais.map((l) => (
+								<tr key={l.id}>
+									<td>{l.nome}</td>
+									<td>{l.cep}</td>
+									<td>{l.empresaNome}</td>
+									<td>{l.responsavelNome}</td>
 								</tr>
 							))}
 						</tbody>
 					</Table>
 				) : (
-					"Começe a cadastra locais"
+					"Começe a cadastrar locais"
 				)
 			) : (
 				"carregando"

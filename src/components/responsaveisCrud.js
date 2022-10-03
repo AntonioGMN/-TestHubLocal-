@@ -1,10 +1,19 @@
 import { Form } from "./form";
 import Grid from "@mui/material/Unstable_Grid2";
+import { useEffect, useState } from "react";
+import { useAlert } from "../contexts/AlertContext";
+import completeAddressByCep from "../utils/completeAddressByCep";
 
 export default function ResponsavelCrud({ obj, setObj }) {
+	const [lastCep, setLastCep] = useState();
+	const { setMessage } = useAlert();
 	function handlerInput(e) {
 		setObj({ ...obj, [e.target.name]: e.target.value });
 	}
+
+	useEffect(() => {
+		completeAddressByCep(obj, setObj, lastCep, setLastCep, setMessage);
+	}, [obj, setObj, lastCep, setLastCep, setMessage]);
 
 	return (
 		<Form width={"100%"} inputHeight={"35px"}>
@@ -37,7 +46,7 @@ export default function ResponsavelCrud({ obj, setObj }) {
 						maxLength={50}
 					/>
 				</Grid>
-				<Grid xs={5}>
+				<Grid xs={9}>
 					<input
 						placeholder="Cidade"
 						name="cidade"
@@ -45,7 +54,7 @@ export default function ResponsavelCrud({ obj, setObj }) {
 						onChange={(e) => handlerInput(e)}
 					/>
 				</Grid>
-				<Grid xs={7}>
+				<Grid xs={3}>
 					<input
 						placeholder="Estado"
 						name="estado"

@@ -11,11 +11,13 @@ import * as apiLocais from "../../service/apiLocais";
 
 import { useState, useEffect } from "react";
 import AutoCompleteInput from "../../components/autoCompleteInput";
+import completeAddressByCep from "../../utils/completeAddressByCep";
 
 export default function CreateLocais({ creating }) {
 	const { token } = useAuth();
 	const { setMessage } = useAlert();
 	const [empresas, setEmpresas] = useState([]);
+	const [lastCep, setLastCep] = useState();
 	const [local, setLocal] = useState({
 		nome: "",
 		cep: "",
@@ -42,14 +44,14 @@ export default function CreateLocais({ creating }) {
 				const response = await apiEmpresas.get(token);
 				setEmpresas(response.data);
 			} catch (err) {
-				console.log(err);
+				setMessage({ text: "Erro ao salvar empresa" });
 			}
 		}
 
+		completeAddressByCep(local, setLocal, lastCep, setLastCep, setMessage);
 		getEmpresa();
-	}, [token]);
+	}, [token, local, setLocal, lastCep, setLastCep, setMessage]);
 
-	console.log(empresas);
 	function handlerInput(e, obj, act) {
 		act({ ...obj, [e.target.name]: e.target.value });
 	}
@@ -70,7 +72,7 @@ export default function CreateLocais({ creating }) {
 			console.log(body);
 			await apiLocais.create(body, token);
 			creating(false);
-			setMessage({ type: "success", text: "locais cadastrada" });
+			setMessage({ type: "success", text: "local cadastrado" });
 		} catch (err) {
 			console.log(err);
 			setMessage({ text: "Erro ao salvar local" });
