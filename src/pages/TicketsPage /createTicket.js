@@ -79,10 +79,10 @@ export default function CreateTicket({ creating }) {
 					</Grid>
 				</Grid>
 			</Form>
-			<Row>
+			<Row turn>
 				<Button
 					onClick={() => {
-						window.location.replace("/");
+						window.location.replace("/tickets");
 					}}
 				>
 					Cancelar

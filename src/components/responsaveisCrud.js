@@ -1,8 +1,8 @@
-import { Form } from "./form";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useEffect, useState } from "react";
 import { useAlert } from "../contexts/AlertContext";
 import completeAddressByCep from "../utils/completeAddressByCep";
+import cep from "cep-promise";
 
 export default function ResponsavelCrud({ obj, setObj }) {
 	const [lastCep, setLastCep] = useState();
@@ -12,16 +12,27 @@ export default function ResponsavelCrud({ obj, setObj }) {
 	}
 
 	useEffect(() => {
+		async function validCep() {
+			try {
+				await cep(obj.cep);
+				return true;
+			} catch (err) {
+				console.log(err);
+			}
+		}
+
 		if (obj.cep.length === 8) {
+			validCep();
 			completeAddressByCep(obj, setObj, lastCep, setLastCep, setMessage);
 		}
 	}, [obj, setObj, lastCep, setLastCep, setMessage]);
 
 	return (
-		<Form width={"100%"} inputHeight={"35px"}>
+		<>
 			<Grid container spacing={2}>
 				<Grid xs={6}>
 					<input
+						required
 						placeholder="Nome"
 						type="text"
 						name="nome"
@@ -31,6 +42,7 @@ export default function ResponsavelCrud({ obj, setObj }) {
 				</Grid>
 				<Grid xs={3}>
 					<input
+						required
 						placeholder="Telefone"
 						type="text"
 						name="telefone"
@@ -40,16 +52,19 @@ export default function ResponsavelCrud({ obj, setObj }) {
 				</Grid>
 				<Grid xs={3}>
 					<input
+						required
 						placeholder="CEP"
 						type="text"
 						name="cep"
 						value={obj.cep}
 						onChange={(e) => handlerInput(e)}
-						maxLength={50}
+						minLength={8}
+						maxLength={8}
 					/>
 				</Grid>
 				<Grid xs={9}>
 					<input
+						required
 						placeholder="Cidade"
 						name="cidade"
 						value={obj.cidade}
@@ -58,6 +73,7 @@ export default function ResponsavelCrud({ obj, setObj }) {
 				</Grid>
 				<Grid xs={3}>
 					<input
+						required
 						placeholder="Estado"
 						name="estado"
 						value={obj.estado}
@@ -66,6 +82,7 @@ export default function ResponsavelCrud({ obj, setObj }) {
 				</Grid>
 				<Grid xs={6}>
 					<input
+						required
 						placeholder="Rua"
 						name="rua"
 						value={obj.rua}
@@ -74,6 +91,7 @@ export default function ResponsavelCrud({ obj, setObj }) {
 				</Grid>
 				<Grid xs={6}>
 					<input
+						required
 						placeholder="Bairro"
 						name="bairro"
 						value={obj.bairro}
@@ -81,6 +99,6 @@ export default function ResponsavelCrud({ obj, setObj }) {
 					/>
 				</Grid>
 			</Grid>
-		</Form>
+		</>
 	);
 }

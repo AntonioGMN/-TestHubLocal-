@@ -12,6 +12,7 @@ import * as apiLocais from "../../service/apiLocais";
 import { useState, useEffect } from "react";
 import AutoCompleteInput from "../../components/autoCompleteInput";
 import completeAddressByCep from "../../utils/completeAddressByCep";
+import cep from "cep-promise";
 
 export default function CreateLocais({ creating }) {
 	const { token } = useAuth();
@@ -70,7 +71,16 @@ export default function CreateLocais({ creating }) {
 		responsavel: { ...res },
 	};
 
-	async function save() {
+	async function save(e) {
+		e.preventDefault();
+
+		try {
+			await cep(responsavel.cep);
+		} catch (err) {
+			console.log(err);
+			setMessage({ text: "CEP inválido" });
+		}
+
 		try {
 			console.log(body);
 			await apiLocais.create(body, token);
@@ -86,7 +96,13 @@ export default function CreateLocais({ creating }) {
 	return (
 		<>
 			<Title>Local</Title>
-			<Form width={"100%"} inputHeight={"32px"}>
+			<Form
+				width={"100%"}
+				inputHeight={"32px"}
+				onSubmit={(e) => {
+					save(e);
+				}}
+			>
 				<Grid container spacing={2}>
 					<Grid xs={6}>
 						<input
@@ -108,6 +124,7 @@ export default function CreateLocais({ creating }) {
 					</Grid>
 					<Grid xs={4}>
 						<input
+							required
 							placeholder="Estado"
 							name="estado"
 							value={local.estado}
@@ -116,6 +133,7 @@ export default function CreateLocais({ creating }) {
 					</Grid>
 					<Grid xs={5}>
 						<input
+							required
 							placeholder="Cidade"
 							name="cidade"
 							value={local.cidade}
@@ -124,16 +142,19 @@ export default function CreateLocais({ creating }) {
 					</Grid>
 					<Grid xs={3}>
 						<input
+							required
 							placeholder="CEP"
 							type="text"
 							name="cep"
 							value={local.cep}
 							onChange={(e) => handlerInput(e, local, setLocal)}
-							maxLength={50}
+							minLength={8}
+							maxLength={8}
 						/>
 					</Grid>
 					<Grid xs={5}>
 						<input
+							required
 							placeholder="Rua"
 							name="rua"
 							value={local.rua}
@@ -142,6 +163,7 @@ export default function CreateLocais({ creating }) {
 					</Grid>
 					<Grid xs={7}>
 						<input
+							required
 							placeholder="Bairro"
 							name="bairro"
 							value={local.bairro}
@@ -149,25 +171,19 @@ export default function CreateLocais({ creating }) {
 						/>
 					</Grid>
 				</Grid>
+				<Title>Responsavel</Title>
+				<ResponsavelCrud obj={responsavel} setObj={setResponsavel} />
+				<Row turn>
+					<Button
+						onClick={() => {
+							window.location.replace("/locais");
+						}}
+					>
+						Cancelar
+					</Button>
+					<Button type="submit">Criar</Button>
+				</Row>
 			</Form>
-			<Title>Reponsavel</Title>
-			<ResponsavelCrud obj={responsavel} setObj={setResponsavel} />
-			<Row>
-				<Button
-					onClick={() => {
-						window.location.replace("/");
-					}}
-				>
-					Cancelar
-				</Button>
-				<Button
-					onClick={() => {
-						save();
-					}}
-				>
-					Criar
-				</Button>
-			</Row>
 		</>
 	);
 }

@@ -59,10 +59,10 @@ export const Button = styled.button`
 export const Line = styled.hr`
 	width: 100%;
 	border: none;
-	border-top: 1px solid #3f3838;
+	//border-top: 1px solid white;
 	height: 10px;
 	overflow: visible;
-	color: #3f3838;
+	color: white;
 	text-align: center;
 
 	::after {
@@ -72,7 +72,7 @@ export const Line = styled.hr`
 		top: -0.5em;
 		font-size: 22px;
 		padding: 0 0.3em;
-		background: white;
+		//background: white;
 		font-size: 22px;
 		line-height: 24px;
 	}

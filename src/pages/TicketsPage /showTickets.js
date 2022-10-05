@@ -6,25 +6,35 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import * as apiTickets from "../../service/apiTickets";
 import TicketsSection, { Ticket } from "../../components/ticketsLayout";
+import cep from "cep-promise";
+import { useAlert } from "../../contexts/AlertContext";
 
 export default function ShowTickets({ creating }) {
-	const [tickets, settickets] = useState(null);
+	const [tickets, setTickets] = useState([]);
+	const { setMessage } = useAlert();
 	const { token } = useAuth();
 
 	useEffect(() => {
 		async function getEmpresa() {
 			try {
-				const tickets = await apiTickets.get(token);
-				settickets(tickets.data);
+				const response = await apiTickets.get(token);
+				const tickets = response.data;
+				const ticketsWithAddres = await Promise.all(
+					tickets.map(async (t) => {
+						const address = await cep(t.cep);
+						return { ...t, ...address };
+					})
+				);
+
+				setTickets(ticketsWithAddres);
 			} catch (err) {
 				console.log(err);
+				setMessage({ text: "Erro a buscar tickets" });
 			}
 		}
 
 		getEmpresa();
-	}, [token]);
-
-	console.log(tickets);
+	}, [token, setTickets, setMessage]);
 
 	return (
 		<>
@@ -40,16 +50,20 @@ export default function ShowTickets({ creating }) {
 			{tickets ? (
 				tickets.length > 0 ? (
 					<TicketsSection>
-						{tickets.map((t) => (
-							<Ticket key={t.id}>
-								<p>{t.titulo}</p>
-								<span>Local: {t.local}</span>
-								<span>Usuario: {t.usuarioNome}</span>
-								<span>Criador: {t.criador}</span>
-								<span>Empresa Responsavel: {t.empresaResponsavel}</span>
-								<span>Status: {t.status}</span>
-							</Ticket>
-						))}
+						{tickets.map((t) => {
+							return (
+								<Ticket key={t.id}>
+									<p>{t.titulo}</p>
+									<span>
+										Local: {`${t.street}, ${t.neighborhood} ${t.city}/${t.state} `}
+									</span>
+									<span>Usuario: {t.usuarioNome}</span>
+									<span>Criador: {t.criador}</span>
+									<span>Empresa Responsavel: {t.empresaResponsavel}</span>
+									<span>Status: {t.status}</span>
+								</Ticket>
+							);
+						})}
 					</TicketsSection>
 				) : (
 					"Começe a cadastra tickets"

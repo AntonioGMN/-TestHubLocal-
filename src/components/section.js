@@ -14,7 +14,7 @@ const Section = styled.section`
 	border-radius: 0 15px 15px 0;
 
 	@media (max-width: 900px) {
-		height: 85%;
+		max-height: 85%;
 		border-radius: 15px;
 	}
 `;

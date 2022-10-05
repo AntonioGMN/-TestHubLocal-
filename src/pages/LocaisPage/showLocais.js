@@ -24,6 +24,8 @@ export default function ShowLocais({ creating }) {
 		getEmpresa();
 	}, [token]);
 
+	console.log(locais);
+
 	return (
 		<>
 			<Row>

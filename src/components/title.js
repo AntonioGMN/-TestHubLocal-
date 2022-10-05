@@ -10,6 +10,8 @@ const Title = styled.h1`
 	text-align: center;
 	text-align: ${(props) => props.align || "center"};
 
+	align-self: flex-start;
+
 	margin-bottom: 16px;
 
 	color: #31cc93;

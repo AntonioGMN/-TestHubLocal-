@@ -7,8 +7,9 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useAlert } from "../../contexts/AlertContext";
 import Row from "../../components/row";
 import ResponsavelCrud from "../../components/responsaveisCrud";
+import cep from "cep-promise";
 
-export default function Addresponsavels({ creating }) {
+export default function AddrEmpresas({ creating }) {
 	const { token } = useAuth();
 	const { setMessage } = useAlert();
 	const [empresa, setEmpresa] = useState({
@@ -31,17 +32,25 @@ export default function Addresponsavels({ creating }) {
 		act({ ...obj, [e.target.name]: e.target.value });
 	}
 
-	const res = {
-		nome: responsavel.nome,
-		telefone: responsavel.telefone,
-		cep: responsavel.cep,
-	};
+	async function handlerSubmit(e) {
+		e.preventDefault();
 
-	const body = { empresa: { ...empresa }, responsavel: { ...res } };
-
-	async function save() {
 		try {
-			console.log(empresa);
+			await cep(responsavel.cep);
+		} catch (err) {
+			setMessage({ text: "Cep invalido2" });
+			return;
+		}
+
+		try {
+			const body = {
+				empresa: { ...empresa },
+				responsavel: {
+					nome: responsavel.nome,
+					telefone: responsavel.telefone,
+					cep: responsavel.cep,
+				},
+			};
 			await api.create(body, token);
 			creating(false);
 			setMessage({ type: "success", text: "empresa cadastrada" });
@@ -54,7 +63,7 @@ export default function Addresponsavels({ creating }) {
 	return (
 		<>
 			<Title>Empresa</Title>
-			<Form width={"100%"} inputHeight={"35px"}>
+			<Form width={"100%"} inputHeight={"35px"} onSubmit={(e) => handlerSubmit(e)}>
 				<Grid container spacing={2}>
 					<Grid xs={8}>
 						<input
@@ -87,25 +96,20 @@ export default function Addresponsavels({ creating }) {
 						/>
 					</Grid>
 				</Grid>
+				<Title>Responsavel</Title>
+				<ResponsavelCrud obj={responsavel} setObj={setResponsavel} />
+				<Row turn>
+					<Button
+						type="text"
+						onClick={() => {
+							window.location.replace("/");
+						}}
+					>
+						Cancelar
+					</Button>
+					<Button type="submit">Criar</Button>
+				</Row>
 			</Form>
-			<Title>Reponsavel</Title>
-			<ResponsavelCrud obj={responsavel} setObj={setResponsavel} />
-			<Row>
-				<Button
-					onClick={() => {
-						window.location.replace("/");
-					}}
-				>
-					Canselar
-				</Button>
-				<Button
-					onClick={() => {
-						save();
-					}}
-				>
-					Criar
-				</Button>
-			</Row>
 		</>
 	);
 }

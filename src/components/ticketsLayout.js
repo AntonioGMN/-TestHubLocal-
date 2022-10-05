@@ -12,6 +12,10 @@ const TicketsSection = styled.section`
 	gap: 8px;
 	overflow: auto;
 	color: white;
+
+	@media (max-width: 900px) {
+		align-content: flex-start;
+	}
 `;
 
 export const Ticket = styled.article`

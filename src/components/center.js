@@ -10,7 +10,7 @@ const Container = styled.main`
 
 	@media (max-width: 700px) {
 		width: 100%;
-		justify-content: start;
+		justify-content: center;
 		gap: 15px;
 	}
 `;
