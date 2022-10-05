@@ -48,7 +48,10 @@ export default function CreateLocais({ creating }) {
 			}
 		}
 
-		completeAddressByCep(local, setLocal, lastCep, setLastCep, setMessage);
+		if (local.cep.length === 8) {
+			completeAddressByCep(local, setLocal, lastCep, setLastCep, setMessage);
+		}
+
 		getEmpresa();
 	}, [token, local, setLocal, lastCep, setLastCep, setMessage]);
 
@@ -97,9 +100,10 @@ export default function CreateLocais({ creating }) {
 					</Grid>
 					<Grid xs={6}>
 						<AutoCompleteInput
-							empresas={empresas}
-							local={local}
-							setLocal={setLocal}
+							list={empresas}
+							searchType="empresas"
+							obj={local}
+							setObj={setLocal}
 						/>
 					</Grid>
 					<Grid xs={4}>

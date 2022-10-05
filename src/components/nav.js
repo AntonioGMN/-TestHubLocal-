@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import { IoBusinessOutline } from "react-icons/io5";
-import { GrMapLocation } from "react-icons/gr";
+import { FaMapMarkedAlt } from "react-icons/fa";
 import { HiOutlineTicket } from "react-icons/hi";
 import { AiOutlineLogout } from "react-icons/ai";
 import { useAuth } from "../contexts/AuthContext";
@@ -18,12 +18,12 @@ export default function Nav() {
 				<p>Empresas</p>
 			</div>
 			<div onClick={() => navegate("/locais")}>
-				<GrMapLocation size={55} />
+				<FaMapMarkedAlt size={55} />
 				<p>Locais</p>
 			</div>
-			<div>
+			<div onClick={() => navegate("/tickets")}>
 				<HiOutlineTicket size={55} />
-				<p>Ticket</p>
+				<p>Tickets</p>
 			</div>
 			<div onClick={() => logout(token)}>
 				<AiOutlineLogout size={55} />
@@ -37,13 +37,12 @@ const NavStyle = styled.nav`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: space-evenly;
 
 	height: 100%;
 	width: 10%;
-	padding-top: 15px;
 	gap: 25px;
-
-	border-radius: 15px 0 0 15px;
+	color: white;
 
 	div {
 		width: 100%;

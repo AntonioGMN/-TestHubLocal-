@@ -7,7 +7,7 @@ async function completeAddressByCep(
 	setLastCep,
 	setMessage
 ) {
-	if (obj.cep.length === 8 && obj.cep !== lastCep) {
+	if (obj.cep !== lastCep) {
 		async function saveAddress() {
 			try {
 				const address = await cep(obj.cep);

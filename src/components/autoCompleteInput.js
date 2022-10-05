@@ -2,23 +2,43 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
-export default function AutoCompleteInput({ empresas, local, setLocal }) {
+export default function AutoCompleteInput({
+	searchType,
+	list,
+	obj,
+	setObj,
+	placeholder,
+}) {
 	const nomes = [];
-	empresas.forEach((l) => nomes.push(l.empresaNome));
+	if (searchType === "empresas") list.forEach((l) => nomes.push(l.empresaNome));
+	if (searchType === "local") list.forEach((l) => nomes.push(l.nome));
+	if (searchType === "user") list.forEach((l) => nomes.push(l.name));
 
-	function findEmpresa(selected) {
-		console.log({ selected });
-		const empresa = empresas.find((l) => l.empresaNome === selected);
-		console.log({ empresa });
-		setLocal({ ...local, empresaId: empresa.empresaid });
+	function search(selected) {
+		if (searchType === "empresas") {
+			const empresa = list.find((l) => l.empresaNome === selected);
+			setObj({ ...obj, empresaId: empresa.empresaid });
+		}
+
+		if (searchType === "local") {
+			const local = list.find((l) => l.nome === selected);
+			setObj({ ...obj, localId: local.id });
+		}
+
+		if (searchType === "user") {
+			const user = list.find((l) => l.name === selected);
+			setObj({ ...obj, usuarioId: user.id });
+		}
+
 		return;
 	}
 
 	return (
 		<Autocomplete
 			options={nomes}
-			onChange={(e, newValue) => findEmpresa(newValue)}
+			onChange={(e, newValue) => search(newValue)}
 			renderInput={(params) => <TextField {...params} />}
+			placeholder={placeholder}
 		/>
 	);
 }

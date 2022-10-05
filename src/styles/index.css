@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Saira+Stencil+One&display=swap");
 
 * {
-	color: #000000;
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
@@ -15,5 +14,5 @@ body {
 
 .root {
 	min-height: 100vh;
-	background-image: linear-gradient(50deg, #00f260, #0575e6);
+	background-image: linear-gradient(180deg, #00f260, #0575e6);
 }

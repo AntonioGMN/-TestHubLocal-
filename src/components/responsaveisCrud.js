@@ -12,7 +12,9 @@ export default function ResponsavelCrud({ obj, setObj }) {
 	}
 
 	useEffect(() => {
-		completeAddressByCep(obj, setObj, lastCep, setLastCep, setMessage);
+		if (obj.cep.length === 8) {
+			completeAddressByCep(obj, setObj, lastCep, setLastCep, setMessage);
+		}
 	}, [obj, setObj, lastCep, setLastCep, setMessage]);
 
 	return (
