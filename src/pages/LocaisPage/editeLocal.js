@@ -99,7 +99,6 @@ export default function EditeLocal({ originalLocal, handlePage }) {
 			} catch (err) {
 				console.log(err);
 			}
-			console.log(editedLocal);
 			setEditing(false);
 		}
 

@@ -33,8 +33,6 @@ export default function EditeResponsaveis({ originalLocal, handlePage }) {
 		localId: originalLocal.id,
 	});
 
-	console.log({ originalLocal });
-
 	useEffect(() => {
 		async function getAddres() {
 			try {
@@ -59,9 +57,6 @@ export default function EditeResponsaveis({ originalLocal, handlePage }) {
 		getAddres();
 	}, [originalLocal, setMessage, token, creating]);
 
-	console.log({ responsaveis });
-	console.log({ principal });
-
 	async function handlerSubmit(e) {
 		e.preventDefault();
 
@@ -79,8 +74,6 @@ export default function EditeResponsaveis({ originalLocal, handlePage }) {
 			setCreating(false);
 			return;
 		}
-
-		console.log(principal);
 	}
 
 	return (
