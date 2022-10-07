@@ -2,13 +2,15 @@ import styled from "styled-components";
 
 export const Form = styled.form`
 	width: ${(pros) => (pros.width ? "100%" : "380px")};
+	height: 100%;
 
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
 	gap: 12px;
 	margin-bottom: 16px;
+	color: #31cc93;
 
 	@media (max-width: 700px) {
 		width: 100%;

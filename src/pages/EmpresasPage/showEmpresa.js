@@ -32,6 +32,7 @@ export default function ShowEmpresas({ creating }) {
 					size={25}
 					onClick={() => creating(true)}
 					cursor="pointer"
+					color="#31cc93"
 				/>
 			</Row>
 			{empresas ? (

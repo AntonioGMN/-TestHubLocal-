@@ -14,7 +14,7 @@ import AutoCompleteInput from "../../components/autoCompleteInput";
 import completeAddressByCep from "../../utils/completeAddressByCep";
 import cep from "cep-promise";
 
-export default function CreateLocais({ creating }) {
+export default function CreateLocais({ handlePage }) {
 	const { token } = useAuth();
 	const { setMessage } = useAlert();
 	const [empresas, setEmpresas] = useState([]);
@@ -45,7 +45,7 @@ export default function CreateLocais({ creating }) {
 				const response = await apiEmpresas.get(token);
 				setEmpresas(response.data);
 			} catch (err) {
-				setMessage({ text: "Erro ao salvar empresa" });
+				setMessage({ text: "Erro ao buscar empresa" });
 			}
 		}
 
@@ -84,7 +84,7 @@ export default function CreateLocais({ creating }) {
 		try {
 			console.log(body);
 			await apiLocais.create(body, token);
-			creating(false);
+			handlePage("show");
 			setMessage({ type: "success", text: "local cadastrado" });
 		} catch (err) {
 			console.log(err);

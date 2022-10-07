@@ -36,6 +36,8 @@ export default function ShowTickets({ creating }) {
 		getEmpresa();
 	}, [token, setTickets, setMessage]);
 
+	console.log(tickets);
+
 	return (
 		<>
 			<Row>
@@ -44,6 +46,7 @@ export default function ShowTickets({ creating }) {
 					size={25}
 					onClick={() => creating(true)}
 					cursor="pointer"
+					color="#31cc93"
 				/>
 			</Row>
 
@@ -54,8 +57,9 @@ export default function ShowTickets({ creating }) {
 							return (
 								<Ticket key={t.id}>
 									<p>{t.titulo}</p>
+									<span>Nome do local: {t.local}</span>
 									<span>
-										Local: {`${t.street}, ${t.neighborhood} ${t.city}/${t.state} `}
+										Endereço: {`${t.street}, ${t.neighborhood} ${t.city}/${t.state} `}
 									</span>
 									<span>Usuario: {t.usuarioNome}</span>
 									<span>Criador: {t.criador}</span>

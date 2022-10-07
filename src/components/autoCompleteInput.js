@@ -8,6 +8,7 @@ export default function AutoCompleteInput({
 	obj,
 	setObj,
 	placeholder,
+	defaultValue,
 }) {
 	const nomes = [];
 	if (searchType === "empresas") list.forEach((l) => nomes.push(l.empresaNome));

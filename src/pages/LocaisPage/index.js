@@ -9,9 +9,12 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import ShowLocais from "./showLocais";
 import CreateEmpresas from "./createLocal";
+import EditeLocal from "./editeLocal";
+import EditeResponsaveis from "./editeResponsavel";
 
 export default function LocaisPage() {
-	const [creating, setCreating] = useState(false);
+	const [page, setPage] = useState("show");
+	const [localEdited, setLocalEdited] = useState(null);
 	const { token } = useAuth();
 
 	const navegate = useNavigate();
@@ -20,16 +23,24 @@ export default function LocaisPage() {
 		if (!token) navegate("/login");
 	}, [token, navegate]);
 
+	function SelectedPage() {
+		if (page === "creating") return <CreateEmpresas handlePage={setPage} />;
+		if (page === "show")
+			return <ShowLocais handlePage={setPage} setLocalEdited={setLocalEdited} />;
+		if (page === "editeLocal")
+			return <EditeLocal handlePage={setPage} originalLocal={localEdited} />;
+		if (page === "editeResponsaveis")
+			return (
+				<EditeResponsaveis handlePage={setPage} originalLocal={localEdited} />
+			);
+	}
+
 	return (
 		<Container>
 			<Box>
 				<Nav />
 				<Section>
-					{creating ? (
-						<CreateEmpresas creating={setCreating} />
-					) : (
-						<ShowLocais creating={setCreating} />
-					)}
+					<SelectedPage />
 				</Section>
 			</Box>
 		</Container>

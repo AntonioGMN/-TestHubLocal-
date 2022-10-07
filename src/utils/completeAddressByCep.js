@@ -7,31 +7,34 @@ async function completeAddressByCep(
 	setLastCep,
 	setMessage
 ) {
-	if (obj.cep !== lastCep) {
-		async function saveAddress() {
-			try {
-				const address = await cep(obj.cep);
-				setObj({
-					...obj,
-					cidade: address.city,
-					estado: address.state,
-					rua: address.street,
-					bairro: address.neighborhood,
-				});
-			} catch (err) {
-				setObj({
-					...obj,
-					cidade: "",
-					estado: "",
-					rua: "",
-					bairro: "",
-				});
-				setMessage({ type: "warning", text: "Cep não encontrado" });
+	console.log(obj);
+	if (obj !== null) {
+		if (obj.cep !== lastCep) {
+			async function saveAddress() {
+				try {
+					const address = await cep(obj.cep);
+					setObj({
+						...obj,
+						cidade: address.city,
+						estado: address.state,
+						rua: address.street,
+						bairro: address.neighborhood,
+					});
+				} catch (err) {
+					setObj({
+						...obj,
+						cidade: "",
+						estado: "",
+						rua: "",
+						bairro: "",
+					});
+					setMessage({ type: "warning", text: "Cep não encontrado" });
+				}
+				setLastCep(obj.cep);
 			}
-			setLastCep(obj.cep);
+			saveAddress();
 		}
-
-		saveAddress();
 	}
+	return;
 }
 export default completeAddressByCep;

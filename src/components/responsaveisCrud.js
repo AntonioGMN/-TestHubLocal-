@@ -36,7 +36,7 @@ export default function ResponsavelCrud({ obj, setObj }) {
 						placeholder="Nome"
 						type="text"
 						name="nome"
-						value={obj.name}
+						value={obj.nome}
 						onChange={(e) => handlerInput(e)}
 					/>
 				</Grid>
@@ -48,6 +48,8 @@ export default function ResponsavelCrud({ obj, setObj }) {
 						name="telefone"
 						value={obj.telefone}
 						onChange={(e) => handlerInput(e)}
+						minLength="11"
+						maxLength="11"
 					/>
 				</Grid>
 				<Grid xs={3}>
@@ -64,6 +66,7 @@ export default function ResponsavelCrud({ obj, setObj }) {
 				</Grid>
 				<Grid xs={9}>
 					<input
+						disabled
 						required
 						placeholder="Cidade"
 						name="cidade"
@@ -73,6 +76,7 @@ export default function ResponsavelCrud({ obj, setObj }) {
 				</Grid>
 				<Grid xs={3}>
 					<input
+						disabled
 						required
 						placeholder="Estado"
 						name="estado"
@@ -82,6 +86,7 @@ export default function ResponsavelCrud({ obj, setObj }) {
 				</Grid>
 				<Grid xs={6}>
 					<input
+						disabled
 						required
 						placeholder="Rua"
 						name="rua"
@@ -91,6 +96,7 @@ export default function ResponsavelCrud({ obj, setObj }) {
 				</Grid>
 				<Grid xs={6}>
 					<input
+						disabled
 						required
 						placeholder="Bairro"
 						name="bairro"

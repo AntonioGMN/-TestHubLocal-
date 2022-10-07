@@ -6,9 +6,11 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import * as apiLocais from "../../service/apiLocais";
+import { BiPencil } from "react-icons/bi";
 
-export default function ShowLocais({ creating }) {
+export default function ShowLocais({ handlePage, setLocalEdited }) {
 	const [locais, setLocais] = useState(null);
+
 	const { token } = useAuth();
 
 	useEffect(() => {
@@ -24,16 +26,15 @@ export default function ShowLocais({ creating }) {
 		getEmpresa();
 	}, [token]);
 
-	console.log(locais);
-
 	return (
 		<>
 			<Row>
 				<Title>Locais</Title>
 				<IoIosAddCircleOutline
 					size={25}
-					onClick={() => creating(true)}
+					onClick={() => handlePage("creating")}
 					cursor="pointer"
+					color="#31cc93"
 				/>
 			</Row>
 			{locais ? (
@@ -53,7 +54,17 @@ export default function ShowLocais({ creating }) {
 									<td>{l.nome}</td>
 									<td>{l.cep}</td>
 									<td>{l.empresaNome}</td>
-									<td>{l.responsavelNome}</td>
+									<td style={{ position: "relative" }}>
+										{l.responsavelNome}
+										<BiPencil
+											color="white"
+											style={{ position: "absolute", right: "2px" }}
+											onClick={() => {
+												setLocalEdited(l);
+												handlePage("editeLocal");
+											}}
+										/>
+									</td>
 								</tr>
 							))}
 						</tbody>

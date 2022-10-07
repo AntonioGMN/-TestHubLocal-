@@ -12,7 +12,7 @@ const Title = styled.h1`
 
 	align-self: flex-start;
 
-	margin-bottom: 16px;
+	margin-bottom: ${(props) => props.marginBottom || "16px"};
 
 	color: #31cc93;
 `;
