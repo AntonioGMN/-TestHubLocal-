@@ -43,3 +43,17 @@ export async function updateResponsaveis(responsavel, responsavelId, token) {
 	);
 	return response;
 }
+
+export async function updatePrincipalResponsavel(
+	responsavelId,
+	localId,
+	token
+) {
+	const config = createConfig(token);
+	const response = await instance.put(
+		`/locais/responsaveis/principal`,
+		{ responsavelId, localId },
+		config
+	);
+	return response;
+}

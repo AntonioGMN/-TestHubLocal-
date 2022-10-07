@@ -14,6 +14,8 @@ import ResponsavelCrud from "../../components/responsaveisCrud";
 import Table from "../../components/table";
 import { BiPencil } from "react-icons/bi";
 import { IoIosAddCircleOutline } from "react-icons/io";
+import { HiOutlineStar } from "react-icons/hi";
+import { HiStar } from "react-icons/hi";
 import cep from "cep-promise";
 
 export default function EditeResponsaveis({ originalLocal, handlePage }) {
@@ -34,6 +36,8 @@ export default function EditeResponsaveis({ originalLocal, handlePage }) {
 		localId: originalLocal.id,
 	};
 	const [newResponsavel, setNewResponsavel] = useState(responsavelLimpo);
+
+	console.log(originalLocal);
 
 	useEffect(() => {
 		async function getAddres() {
@@ -59,6 +63,20 @@ export default function EditeResponsaveis({ originalLocal, handlePage }) {
 		getAddres();
 	}, [originalLocal, setMessage, token, creating, editing]);
 
+	async function setPrincipalResponsavel(responsavelId) {
+		console.log();
+		try {
+			await apiLocais.updatePrincipalResponsavel(
+				responsavelId,
+				originalLocal.id,
+				token
+			);
+			setMessage({ type: "success", text: "Principal responsavel Trocado" });
+		} catch (err) {
+			setMessage({ text: "Erro ao trocar principal responsavel" });
+		}
+	}
+
 	async function handlerSubmit(e) {
 		e.preventDefault();
 
@@ -80,7 +98,6 @@ export default function EditeResponsaveis({ originalLocal, handlePage }) {
 		}
 
 		if (editing) {
-			console.log(newResponsavel);
 			try {
 				await apiLocais.updateResponsaveis(
 					{
@@ -109,7 +126,7 @@ export default function EditeResponsaveis({ originalLocal, handlePage }) {
 						? "Crie o novo responsavel"
 						: editing
 						? "Edite Reponsavel"
-						: "Responsavel Principal Original"}
+						: "Princiopal Responsavel"}
 				</Title>
 				<Form
 					width={"100%"}
@@ -154,9 +171,24 @@ export default function EditeResponsaveis({ originalLocal, handlePage }) {
 										<td>{r.cep}</td>
 										<td style={{ position: "relative" }}>
 											{r.telefone}
+											{r.principal ? (
+												<HiStar
+													cursor="pointer"
+													color="#31cc93"
+													style={{ position: "absolute", right: "0px" }}
+												/>
+											) : (
+												<HiOutlineStar
+													cursor="pointer"
+													color="#31cc93"
+													style={{ position: "absolute", right: "0px" }}
+													onClick={() => setPrincipalResponsavel(r.id)}
+												/>
+											)}
 											<BiPencil
-												color="white"
-												style={{ position: "absolute", right: "2px" }}
+												cursor="pointer"
+												color="#31cc93"
+												style={{ position: "absolute", right: "20px" }}
 												onClick={() => {
 													setEditing(true);
 													setNewResponsavel(r);
