@@ -7,7 +7,6 @@ async function completeAddressByCep(
 	setLastCep,
 	setMessage
 ) {
-	console.log(obj);
 	if (obj !== null) {
 		if (obj.cep !== lastCep) {
 			async function saveAddress() {

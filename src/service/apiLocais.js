@@ -33,3 +33,13 @@ export async function update(local, localId, token) {
 	);
 	return response;
 }
+
+export async function updateResponsaveis(responsavel, responsavelId, token) {
+	const config = createConfig(token);
+	const response = await instance.put(
+		`/locais/responsaveis/update/${responsavelId}`,
+		responsavel,
+		config
+	);
+	return response;
+}

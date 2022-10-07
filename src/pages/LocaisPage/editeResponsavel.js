@@ -20,9 +20,10 @@ export default function EditeResponsaveis({ originalLocal, handlePage }) {
 	const [responsaveis, setResponsaveis] = useState(null);
 	const [principal, setPrincipal] = useState(null);
 	const [creating, setCreating] = useState(false);
+	const [editing, setEditing] = useState(false);
 	const { token } = useAuth();
 	const { setMessage } = useAlert();
-	const [newResponsavel, setNewResponsavel] = useState({
+	const responsavelLimpo = {
 		nome: "",
 		cep: "",
 		telefone: "",
@@ -31,7 +32,8 @@ export default function EditeResponsaveis({ originalLocal, handlePage }) {
 		rua: "",
 		bairro: "",
 		localId: originalLocal.id,
-	});
+	};
+	const [newResponsavel, setNewResponsavel] = useState(responsavelLimpo);
 
 	useEffect(() => {
 		async function getAddres() {
@@ -44,7 +46,7 @@ export default function EditeResponsaveis({ originalLocal, handlePage }) {
 						return { ...l, ...address };
 					})
 				);
-				const princ = response.data.find((r) => r.principal === true);
+				const princ = responsaveisWithAddres.find((r) => r.principal === true);
 				setPrincipal(princ);
 				setResponsaveis(responsaveisWithAddres);
 
@@ -55,24 +57,47 @@ export default function EditeResponsaveis({ originalLocal, handlePage }) {
 		}
 
 		getAddres();
-	}, [originalLocal, setMessage, token, creating]);
+	}, [originalLocal, setMessage, token, creating, editing]);
 
 	async function handlerSubmit(e) {
 		e.preventDefault();
 
 		if (creating) {
-			const body = {
-				responsavel: {
-					nome: newResponsavel.nome,
-					cep: newResponsavel.cep,
-					telefone: newResponsavel.telefone,
+			await apiLocais.createResponsaveis(
+				{
+					responsavel: {
+						nome: newResponsavel.nome,
+						cep: newResponsavel.cep,
+						telefone: newResponsavel.telefone,
+					},
+					localId: newResponsavel.localId,
 				},
-				localId: newResponsavel.localId,
-			};
-			await apiLocais.createResponsaveis(body, token);
+				token
+			);
 
 			setCreating(false);
 			return;
+		}
+
+		if (editing) {
+			console.log(newResponsavel);
+			try {
+				await apiLocais.updateResponsaveis(
+					{
+						responsavel: {
+							nome: newResponsavel.nome,
+							cep: newResponsavel.cep,
+							telefone: newResponsavel.telefone,
+						},
+					},
+					newResponsavel.id,
+					token
+				);
+				setEditing(false);
+				return;
+			} catch (err) {
+				console.log(err);
+			}
 		}
 	}
 
@@ -80,7 +105,11 @@ export default function EditeResponsaveis({ originalLocal, handlePage }) {
 		principal !== null && (
 			<>
 				<Title>
-					{creating ? "Crie o novo responsavel" : "Responsavel Principal Original"}
+					{creating
+						? "Crie o novo responsavel"
+						: editing
+						? "Edite Reponsavel"
+						: "Responsavel Principal Original"}
 				</Title>
 				<Form
 					width={"100%"}
@@ -91,15 +120,20 @@ export default function EditeResponsaveis({ originalLocal, handlePage }) {
 				>
 					{creating ? (
 						<ResponsavelCrud obj={newResponsavel} setObj={setNewResponsavel} />
+					) : editing ? (
+						<ResponsavelCrud obj={newResponsavel} setObj={setNewResponsavel} />
 					) : (
-						<ResponsavelCrud obj={principal} setObj={setPrincipal} />
+						<ResponsavelCrud obj={principal} setObj={setPrincipal} desabled={true} />
 					)}
 
 					<Row>
 						<Title marginBottom={"none"}>Responsaveis</Title>
 						<IoIosAddCircleOutline
 							size={25}
-							onClick={() => setCreating(true)}
+							onClick={() => {
+								setNewResponsavel(responsavelLimpo);
+								setCreating(true);
+							}}
 							cursor="pointer"
 							color="#31cc93"
 						/>
@@ -124,7 +158,8 @@ export default function EditeResponsaveis({ originalLocal, handlePage }) {
 												color="white"
 												style={{ position: "absolute", right: "2px" }}
 												onClick={() => {
-													setCreating(true);
+													setEditing(true);
+													setNewResponsavel(r);
 												}}
 											/>
 										</td>
@@ -138,10 +173,11 @@ export default function EditeResponsaveis({ originalLocal, handlePage }) {
 							type="text"
 							onClick={() => {
 								if (creating) setCreating(false);
-								else handlePage("editeLocal");
+								if (editing) setEditing(false);
+								if (!creating && !editing) handlePage("editeLocal");
 							}}
 						>
-							{creating ? "Cancelar" : "Concluido"}
+							{creating || editing ? "Cancelar" : "Concluido"}
 						</Button>
 						<Button type="submit">
 							{creating ? "Crie o novo responsavel" : "Editar"}

@@ -4,7 +4,7 @@ import { useAlert } from "../contexts/AlertContext";
 import completeAddressByCep from "../utils/completeAddressByCep";
 import cep from "cep-promise";
 
-export default function ResponsavelCrud({ obj, setObj }) {
+export default function ResponsavelCrud({ obj, setObj, desabled }) {
 	const [lastCep, setLastCep] = useState();
 	const { setMessage } = useAlert();
 	function handlerInput(e) {
@@ -32,6 +32,7 @@ export default function ResponsavelCrud({ obj, setObj }) {
 			<Grid container spacing={2}>
 				<Grid xs={6}>
 					<input
+						disabled={desabled}
 						required
 						placeholder="Nome"
 						type="text"
@@ -42,6 +43,7 @@ export default function ResponsavelCrud({ obj, setObj }) {
 				</Grid>
 				<Grid xs={3}>
 					<input
+						disabled={desabled}
 						required
 						placeholder="Telefone"
 						type="text"
@@ -54,6 +56,7 @@ export default function ResponsavelCrud({ obj, setObj }) {
 				</Grid>
 				<Grid xs={3}>
 					<input
+						disabled={desabled}
 						required
 						placeholder="CEP"
 						type="text"
